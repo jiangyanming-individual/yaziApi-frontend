@@ -110,8 +110,8 @@ declare namespace API {
     description?: string;
     method?: string;
     name?: string;
-    reponseHeader?: string;
     requestHeader?: string;
+    responseHeader?: string;
     url?: string;
   };
 
@@ -122,8 +122,8 @@ declare namespace API {
     method?: string;
     name?: string;
     pageSize?: number;
-    reponseHeader?: string;
     requestHeader?: string;
+    responseHeader?: string;
     sortField?: string;
     sortOrder?: string;
     status?: number;
@@ -137,8 +137,8 @@ declare namespace API {
     isDelete?: number;
     method?: string;
     name?: string;
-    reponseHeader?: string;
     requestHeader?: string;
+    responseHeader?: string;
     status?: number;
     url?: string;
     userId?: number;
@@ -150,10 +150,26 @@ declare namespace API {
     id?: number;
     method?: string;
     name?: string;
-    reponseHeader?: string;
     requestHeader?: string;
+    responseHeader?: string;
     status?: number;
     updateTime?: string;
+    url?: string;
+    userId?: number;
+  };
+
+  type listInterfaceInfoVOByPageUsingGETParams = {
+    current?: number;
+    description?: string;
+    id?: number;
+    method?: string;
+    name?: string;
+    pageSize?: number;
+    requestHeader?: string;
+    responseHeader?: string;
+    sortField?: string;
+    sortOrder?: string;
+    status?: number;
     url?: string;
     userId?: number;
   };

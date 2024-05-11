@@ -47,17 +47,17 @@ export async function getInterfaceInfoVoByIdUsingGet(
   });
 }
 
-/** listInterfaceInfoVOByPage POST /api/InterfaceInfo/list/page/vo */
-export async function listInterfaceInfoVoByPageUsingPost(
-  body: API.InterfaceInfoQueryRequest,
+/** listInterfaceInfoVOByPage GET /api/InterfaceInfo/list/page/vo */
+export async function listInterfaceInfoVoByPageUsingGet(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.listInterfaceInfoVOByPageUsingGETParams,
   options?: { [key: string]: any },
 ) {
   return request<API.BaseResponsePageInterfaceInfoVO_>('/api/InterfaceInfo/list/page/vo', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
+    method: 'GET',
+    params: {
+      ...params,
     },
-    data: body,
     ...(options || {}),
   });
 }

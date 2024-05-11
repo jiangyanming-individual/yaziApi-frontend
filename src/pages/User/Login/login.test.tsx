@@ -65,9 +65,7 @@ describe('Login Page', () => {
         }}
       />,
     );
-
     await rootContainer.findAllByText('鸭子API开放平台');
-
     const userNameInput = await rootContainer.findByPlaceholderText('Username: admin or user');
 
     act(() => {
