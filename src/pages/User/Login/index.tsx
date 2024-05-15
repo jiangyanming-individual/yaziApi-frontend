@@ -70,7 +70,6 @@ const Login: React.FC = () => {
   //获取全局登录信息：
   const { setInitialState } = useModel('@@initialState');
   const { styles } = useStyles();
-
   const handleSubmit = async (values: API.UserLoginRequest) => {
     try {
       // 登录
@@ -80,13 +79,10 @@ const Login: React.FC = () => {
       if (res.data){
         const urlParams = new URL(window.location.href).searchParams;
         history.push(urlParams.get('redirect') || '/');
-        const defaultLoginSuccessMessage ="登录成功!";
-        message.success(defaultLoginSuccessMessage);
         //设置全局的用户状态：
         setInitialState({
           loginUser: res.data,
         })
-
         return;
       }
     } catch (error) {

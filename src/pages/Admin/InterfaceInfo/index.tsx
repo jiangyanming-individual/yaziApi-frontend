@@ -1,4 +1,3 @@
-import { addRule, removeRule, rule, updateRule } from '@/services/ant-design-pro/api';
 import { PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns, ProDescriptionsItemProps } from '@ant-design/pro-components';
 import {
@@ -17,7 +16,7 @@ import type {SortOrder} from "antd/lib/table/interface";
 import {
   addInterfaceInfoUsingPost,
   deleteInterfaceInfoUsingPost,
-  listInterfaceInfoVoByPageUsingGet,
+  listInterfaceInfoVoByPageUsingGet, offlineInterfaceInfoUsingPost, onlineInterfaceInfoUsingPost,
   updateInterfaceInfoUsingPost
 } from "@/services/yaziAPI/interfaceinfoController";
 import UpdateModal from "@/pages/Admin/InterfaceInfo/components/UpdateModal";
@@ -113,51 +112,52 @@ const TableList: React.FC = () => {
     }
   };
 
+
   /**
    * 发布接口
    *
    * @param record
    */
-  // const handleOnline = async (record: API.IdRequest) => {
-  //   const hide = message.loading('发布中');
-  //   if (!record) return true;
-  //   try {
-  //     await onlineInterfaceInfoUsingPOST({
-  //       id: record.id
-  //     });
-  //     hide();
-  //     message.success('操作成功');
-  //     actionRef.current?.reload();
-  //     return true;
-  //   } catch (error: any) {
-  //     hide();
-  //     message.error('操作失败，' + error.message);
-  //     return false;
-  //   }
-  // };
+  const handleOnline = async (record: API.IdRequest) => {
+    const hide = message.loading('发布中');
+    if (!record) return true;
+    try {
+      await onlineInterfaceInfoUsingPost({
+        id: record.id
+      });
+      hide();
+      message.success('操作成功');
+      actionRef.current?.reload();
+      return true;
+    } catch (error: any) {
+      hide();
+      message.error('操作失败，' + error.message);
+      return false;
+    }
+  };
 
   /**
    * 下线接口
    *
    * @param record
    */
-  // const handleOffline = async (record: API.IdRequest) => {
-  //   const hide = message.loading('发布中');
-  //   if (!record) return true;
-  //   try {
-  //     await offlineInterfaceInfoUsingPOST({
-  //       id: record.id
-  //     });
-  //     hide();
-  //     message.success('操作成功');
-  //     actionRef.current?.reload();
-  //     return true;
-  //   } catch (error: any) {
-  //     hide();
-  //     message.error('操作失败，' + error.message);
-  //     return false;
-  //   }
-  // };
+  const handleOffline = async (record: API.IdRequest) => {
+    const hide = message.loading('发布中');
+    if (!record) return true;
+    try {
+      await offlineInterfaceInfoUsingPost({
+        id: record.id
+      });
+      hide();
+      message.success('操作成功');
+      actionRef.current?.reload();
+      return true;
+    } catch (error: any) {
+      hide();
+      message.error('操作失败，' + error.message);
+      return false;
+    }
+  };
 
   /**
    *  Delete node
@@ -179,7 +179,6 @@ const TableList: React.FC = () => {
       dataIndex: 'name',
       valueType: 'text',
     },
-
     {
       title: '描述',
       dataIndex: 'description',
@@ -239,7 +238,8 @@ const TableList: React.FC = () => {
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => [
-        <a
+        <Button
+          type="text"
           key="config"
           onClick={() => {
             handleUpdateModalVisible(true);
@@ -247,7 +247,8 @@ const TableList: React.FC = () => {
           }}
         >
           修改
-        </a>,
+        </Button>,
+
         <Button
           type="text"
           key="config"
@@ -258,6 +259,27 @@ const TableList: React.FC = () => {
         >
           删除
         </Button>,
+        record.status === 0?<Button
+          type="text"
+          key="config"
+          danger
+          onClick={() => {
+            handleOnline(record);
+          }}
+        >
+          发布
+        </Button> :null,
+
+        record.status === 1?<Button
+          type="text"
+          key="config"
+          danger
+          onClick={() => {
+            handleOffline(record);
+          }}
+        >
+          下线
+        </Button> :null,
 
       ],
     },

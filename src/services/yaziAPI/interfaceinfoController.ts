@@ -2,7 +2,7 @@
 /* eslint-disable */
 import { request } from '@umijs/max';
 
-/** addInterfaceInfo POST /api/InterfaceInfo/add */
+/** addInterfaceInfo POST /api/UserInterfaceInfo/add */
 export async function addInterfaceInfoUsingPost(
   body: API.InterfaceInfoAddRequest,
   options?: { [key: string]: any },
@@ -17,7 +17,7 @@ export async function addInterfaceInfoUsingPost(
   });
 }
 
-/** deleteInterfaceInfo POST /api/InterfaceInfo/delete */
+/** deleteInterfaceInfo POST /api/UserInterfaceInfo/delete */
 export async function deleteInterfaceInfoUsingPost(
   body: API.DeleteRequest,
   options?: { [key: string]: any },
@@ -32,7 +32,7 @@ export async function deleteInterfaceInfoUsingPost(
   });
 }
 
-/** getInterfaceInfoVOById GET /api/InterfaceInfo/get/vo */
+/** getInterfaceInfoVOById GET /api/UserInterfaceInfo/get/vo */
 export async function getInterfaceInfoVoByIdUsingGet(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
   params: API.getInterfaceInfoVOByIdUsingGETParams,
@@ -47,7 +47,7 @@ export async function getInterfaceInfoVoByIdUsingGet(
   });
 }
 
-/** listInterfaceInfoVOByPage GET /api/InterfaceInfo/list/page/vo */
+/** listInterfaceInfoVOByPage GET /api/UserInterfaceInfo/list/page/vo */
 export async function listInterfaceInfoVoByPageUsingGet(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
   params: API.listInterfaceInfoVOByPageUsingGETParams,
@@ -62,7 +62,7 @@ export async function listInterfaceInfoVoByPageUsingGet(
   });
 }
 
-/** listMyInterfaceInfoVOByPage POST /api/InterfaceInfo/my/list/page/vo */
+/** listMyInterfaceInfoVOByPage POST /api/UserInterfaceInfo/my/list/page/vo */
 export async function listMyInterfaceInfoVoByPageUsingPost(
   body: API.InterfaceInfoQueryRequest,
   options?: { [key: string]: any },
@@ -77,7 +77,37 @@ export async function listMyInterfaceInfoVoByPageUsingPost(
   });
 }
 
-/** updateInterfaceInfo POST /api/InterfaceInfo/update */
+/** offlineInterfaceInfo POST /api/UserInterfaceInfo/offline */
+export async function offlineInterfaceInfoUsingPost(
+  body: API.IdRequest,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponseBoolean_>('/api/InterfaceInfo/offline', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
+/** onlineInterfaceInfo POST /api/UserInterfaceInfo/online */
+export async function onlineInterfaceInfoUsingPost(
+  body: API.IdRequest,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponseBoolean_>('/api/InterfaceInfo/online', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
+/** updateInterfaceInfo POST /api/UserInterfaceInfo/update */
 export async function updateInterfaceInfoUsingPost(
   body: API.InterfaceInfoUpdateRequest,
   options?: { [key: string]: any },

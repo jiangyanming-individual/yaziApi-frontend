@@ -19,8 +19,9 @@ export async function getInitialState(): Promise<InitialState> {
   const state: InitialState={
     loginUser: undefined,
   }
-  const fetchUserInfo = async () => {
-    try {
+
+  //设置用户的登录状态
+  try {
       const res = await getLoginUserUsingGet();
       if (res.data){
         state.loginUser =res.data; //设置状态值
@@ -29,21 +30,7 @@ export async function getInitialState(): Promise<InitialState> {
       history.push(loginPath);
     }
     return state;
-  };
-  // 如果不是登录页面，执行
-  const { location } = history;
-  if (location.pathname !== loginPath) {
-    const currentUser = await fetchUserInfo();
-    return {
-      fetchUserInfo,
-      currentUser,
-      settings: defaultSettings as Partial<LayoutSettings>,
-    };
-  }
-  return {
-    fetchUserInfo,
-    settings: defaultSettings as Partial<LayoutSettings>,
-  };
+
 }
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
@@ -129,4 +116,4 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
  * 它基于 axios 和 ahooks 的 useRequest 提供了一套统一的网络请求和错误处理方案。
  * @doc https://umijs.org/docs/max/request#配置
  */
-export const request = requestConfig
+export const request = requestConfig;

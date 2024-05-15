@@ -106,6 +106,10 @@ declare namespace API {
     id?: number;
   };
 
+  type IdRequest = {
+    id?: number;
+  };
+
   type InterfaceInfoAddRequest = {
     description?: string;
     method?: string;
