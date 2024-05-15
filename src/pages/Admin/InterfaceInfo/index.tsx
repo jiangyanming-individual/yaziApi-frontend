@@ -21,6 +21,7 @@ import {
 } from "@/services/yaziAPI/interfaceinfoController";
 import UpdateModal from "@/pages/Admin/InterfaceInfo/components/UpdateModal";
 import CreateModal from "@/pages/Admin/InterfaceInfo/components/CreateModal";
+import Moment from "moment";
 
 
 const TableList: React.FC = () => {
@@ -87,7 +88,6 @@ const TableList: React.FC = () => {
       return false;
     }
   };
-
 
 
   /**
@@ -159,19 +159,24 @@ const TableList: React.FC = () => {
     }
   };
 
-  /**
-   *  Delete node
-   * @zh-CN 删除节点
-   *
-   * @param record
-   */
+  // 解决时间格式化问题
+  const formatterTime = (val) => {
+    return val ? Moment(val).format('YYYY-MM-DD HH:mm:ss') : ''
+  }
 
-
-  const columns: ProColumns<API.InterfaceInfoVO>[] = [
+  let columns: ProColumns<API.InterfaceInfoVO>[];
+  columns = [
     {
       title: 'ID',
       dataIndex: 'id',
-      valueType: "index"
+      valueType: 'index',
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+          },
+        ],
+      },
     },
 
     {
@@ -193,7 +198,7 @@ const TableList: React.FC = () => {
     {
       title: '用户ID',
       dataIndex: 'userId',
-      valueType: "index"
+      valueType: 'index',
     },
     {
       title: '请求地址',
@@ -202,14 +207,20 @@ const TableList: React.FC = () => {
     },
 
     {
+      title: '请求参数',
+      dataIndex: 'requestParams',
+      valueType: 'jsonCode',
+    },
+
+    {
       title: '请求头',
       dataIndex: 'requestHeader',
-      valueType: 'textarea',
+      valueType: 'jsonCode',
     },
     {
       title: '响应头',
       dataIndex: 'responseHeader',
-      valueType: 'textarea',
+      valueType: 'jsonCode',
     },
 
     {
@@ -238,7 +249,7 @@ const TableList: React.FC = () => {
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => [
-        <Button
+        <a
           type="text"
           key="config"
           onClick={() => {
@@ -247,9 +258,9 @@ const TableList: React.FC = () => {
           }}
         >
           修改
-        </Button>,
+        </a>,
 
-        <Button
+        <a
           type="text"
           key="config"
           danger
@@ -258,29 +269,32 @@ const TableList: React.FC = () => {
           }}
         >
           删除
-        </Button>,
-        record.status === 0?<Button
-          type="text"
-          key="config"
-          danger
-          onClick={() => {
-            handleOnline(record);
-          }}
-        >
-          发布
-        </Button> :null,
+        </a>,
+        record.status === 0 ? (
+          <Button
+            type="text"
+            key="config"
+            danger
+            onClick={() => {
+              handleOnline(record);
+            }}
+          >
+            发布
+          </Button>
+        ) : null,
 
-        record.status === 1?<Button
-          type="text"
-          key="config"
-          danger
-          onClick={() => {
-            handleOffline(record);
-          }}
-        >
-          下线
-        </Button> :null,
-
+        record.status === 1 ? (
+          <Button
+            type="text"
+            key="config"
+            danger
+            onClick={() => {
+              handleOffline(record);
+            }}
+          >
+            下线
+          </Button>
+        ) : null,
       ],
     },
   ];
@@ -290,6 +304,7 @@ const TableList: React.FC = () => {
         headerTitle={'查询接口'}
         actionRef={actionRef}
         rowKey="key"
+        scroll={{ x: 'max-content' }}  // 滑动调整界面
         search={{
           labelWidth: 120,
         }}
@@ -443,7 +458,6 @@ const TableList: React.FC = () => {
         }}
         visible={createModalVisible}
       />
-
     </PageContainer>
   );
 };

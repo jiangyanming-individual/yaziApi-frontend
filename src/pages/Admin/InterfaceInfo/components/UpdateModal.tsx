@@ -2,13 +2,13 @@ import type {ProColumns, ProFormInstance} from '@ant-design/pro-components';
 import { ProTable } from '@ant-design/pro-components';
 import '@umijs/max';
 import { Modal } from 'antd';
-import React, {createRef, useEffect, useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 
 export type Props = {
-  values: API.InterfaceInfo;
-  columns: ProColumns<API.InterfaceInfo>[];
+  values: API.InterfaceInfoVO;
+  columns: ProColumns<API.InterfaceInfoVO>[];
   onCancel: () => void;
-  onSubmit: (values: API.InterfaceInfo) => Promise<void>;
+  onSubmit: (values: API.InterfaceInfoVO) => Promise<void>;
   visible: boolean;
 };
 
