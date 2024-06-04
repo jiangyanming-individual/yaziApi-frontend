@@ -6,7 +6,12 @@ import {List, message, Pagination, PaginationProps} from 'antd';
 import React, {useEffect, useState} from 'react';
 import {
   listInterfaceInfoVoByPageUsingGet,
-} from "@/services/yaziAPI/interfaceinfoController";
+} from "@/services/yaziAPI/interfaceInfoController";
+
+/**
+ * 接口列表页
+ * @constructor
+ */
 
 const Index: React.FC = () => {
   //设置加载的状态

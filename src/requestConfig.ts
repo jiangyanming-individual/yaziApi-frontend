@@ -1,5 +1,6 @@
 ﻿import type { RequestOptions } from '@@/plugin-request/request';
 import type { RequestConfig } from '@umijs/max';
+import {message} from "antd";
 
 // 与后端约定的响应数据格式
 interface ResponseStructure {
@@ -35,7 +36,7 @@ export const requestConfig: RequestConfig = {
       const { data } = response as unknown as ResponseStructure;
       console.log('data', data);
       if (data.code !==0) {
-        throw new Error(data.message);
+        message.error(data.message);
       }
       return response;
     },

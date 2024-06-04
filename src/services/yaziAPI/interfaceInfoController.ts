@@ -47,6 +47,36 @@ export async function getInterfaceInfoVoByIdUsingGet(
   });
 }
 
+/** getFreeInvokeCount POST /api/InterfaceInfo/getFreeInvokeCount */
+export async function getFreeInvokeCountUsingPost(
+  body: API.InterfaceInfoFreeInvokeRequest,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponseUserInterfaceInfoVO_>('/api/InterfaceInfo/getFreeInvokeCount', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
+/** getLeftFreeInvokeCount POST /api/InterfaceInfo/getLeftInvokeCount */
+export async function getLeftFreeInvokeCountUsingPost(
+  body: API.InterfaceInfoFreeInvokeRequest,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponseInt_>('/api/InterfaceInfo/getLeftInvokeCount', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
 /** invokeInterfaceInfo POST /api/InterfaceInfo/invoke */
 export async function invokeInterfaceInfoUsingPost(
   body: API.InterfaceInfoInovkeRequest,

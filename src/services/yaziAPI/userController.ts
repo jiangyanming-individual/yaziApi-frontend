@@ -67,32 +67,32 @@ export async function getUserVoByIdUsingGet(
   });
 }
 
-/** listUserByPage POST /api/user/list/page */
-export async function listUserByPageUsingPost(
-  body: API.UserQueryRequest,
+/** listUserByPage GET /api/user/list/page */
+export async function listUserByPageUsingGet(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.listUserByPageUsingGETParams,
   options?: { [key: string]: any },
 ) {
   return request<API.BaseResponsePageUser_>('/api/user/list/page', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
+    method: 'GET',
+    params: {
+      ...params,
     },
-    data: body,
     ...(options || {}),
   });
 }
 
-/** listUserVOByPage POST /api/user/list/page/vo */
-export async function listUserVoByPageUsingPost(
-  body: API.UserQueryRequest,
+/** listUserVOByPage GET /api/user/list/page/vo */
+export async function listUserVoByPageUsingGet(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.listUserVOByPageUsingGETParams,
   options?: { [key: string]: any },
 ) {
   return request<API.BaseResponsePageUserVO_>('/api/user/list/page/vo', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
+    method: 'GET',
+    params: {
+      ...params,
     },
-    data: body,
     ...(options || {}),
   });
 }

@@ -15,7 +15,9 @@ export default [
     icon: 'HomeOutlined',
     access: 'canAdmin',
     routes: [
+      { name: '用户管理页', icon: 'CaretRightOutlined', path: '/admin/user', component: './Admin/User' },
       { name: '接口管理页', icon: 'CheckSquareOutlined', path: '/admin/interfaceInfo', component: './Admin/InterfaceInfo' },
+      { name: '接口分析页', icon: 'BarChartOutlined', path: '/admin/AnalysisInterfaceInfo', component: './Admin/AnalysisInterfaceInfo' },
     ],
   },
   { path: '*', layout: false, component: './404' },

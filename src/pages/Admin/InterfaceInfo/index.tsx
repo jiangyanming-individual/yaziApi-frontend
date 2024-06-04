@@ -16,9 +16,11 @@ import type {SortOrder} from "antd/lib/table/interface";
 import {
   addInterfaceInfoUsingPost,
   deleteInterfaceInfoUsingPost,
-  listInterfaceInfoVoByPageUsingGet, offlineInterfaceInfoUsingPost, onlineInterfaceInfoUsingPost,
+  listInterfaceInfoVoByPageUsingGet,
+  offlineInterfaceInfoUsingPost,
+  onlineInterfaceInfoUsingPost,
   updateInterfaceInfoUsingPost
-} from "@/services/yaziAPI/interfaceinfoController";
+} from "@/services/yaziAPI/interfaceInfoController";
 import UpdateModal from "@/pages/Admin/InterfaceInfo/components/UpdateModal";
 import CreateModal from "@/pages/Admin/InterfaceInfo/components/CreateModal";
 import Moment from "moment";
