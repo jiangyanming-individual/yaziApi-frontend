@@ -135,6 +135,21 @@ export async function userRegisterUsingPost(
   });
 }
 
+/** getUserByParams POST /api/user/search */
+export async function getUserByParamsUsingPost(
+  body: API.UserSearchRequest,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponseUserVO_>('/api/user/search', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
 /** updateUser POST /api/user/update */
 export async function updateUserUsingPost(
   body: API.UserUpdateRequest,
@@ -146,6 +161,34 @@ export async function updateUserUsingPost(
       'Content-Type': 'application/json',
     },
     data: body,
+    ...(options || {}),
+  });
+}
+
+/** updateUserAvatar POST /api/user/update/avatar */
+export async function updateUserAvatarUsingPost(body: string, options?: { [key: string]: any }) {
+  const formData = new FormData();
+
+  Object.keys(body).forEach((ele) => {
+    const item = (body as any)[ele];
+
+    if (item !== undefined && item !== null) {
+      if (typeof item === 'object' && !(item instanceof File)) {
+        if (item instanceof Array) {
+          item.forEach((f) => formData.append(ele, f || ''));
+        } else {
+          formData.append(ele, JSON.stringify(item));
+        }
+      } else {
+        formData.append(ele, item);
+      }
+    }
+  });
+
+  return request<API.BaseResponseBoolean_>('/api/user/update/avatar', {
+    method: 'POST',
+    data: formData,
+    requestType: 'form',
     ...(options || {}),
   });
 }

@@ -2,28 +2,50 @@ import {
   PageContainer,
 } from '@ant-design/pro-components';
 import '@umijs/max';
-import {Button, Drawer, GetProp, message, Table, TableColumnsType, TablePaginationConfig, TableProps} from 'antd';
+import {
+  Button, Card, Divider,
+  Drawer, Form,
+  GetProp, Input,
+  message, Modal, Select,
+  Space,
+  Table,
+  TableColumnsType,
+  TablePaginationConfig,
+  TableProps
+} from 'antd';
 import React, {useEffect, useRef, useState} from 'react';
-import {deleteUserUsingPost, listUserByPageUsingGet, updateUserUsingPost} from "@/services/yaziAPI/userController";
+import {
+  addUserUsingPost,
+  deleteUserUsingPost,
+  getUserByParamsUsingPost,
+  listUserByPageUsingGet,
+  updateUserUsingPost
+} from "@/services/yaziAPI/userController";
 import Moment from "moment";
 import {updateInterfaceInfoUsingPost} from "@/services/yaziAPI/interfaceInfoController";
 import {Simulate} from "react-dom/test-utils";
-import error = Simulate.error;
+import Search from "antd/es/input/Search";
 
 
+
+//样式
+const formItemLayout = {
+  labelCol: { span: 4 },
+  wrapperCol: { span: 16 },
+};
+//表单样式:
+const tailLayout = {
+  wrapperCol: { offset: 4, span: 16 },
+};
 
 const UserList: React.FC = () => {
 
-
+  const [form] = Form.useForm();
+  const[addForm] = Form.useForm();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<API.UserVO[]>([]);
   const [currentRow, setCurrentRow] = useState<API.UserVO>();
-  const [tableParams, setTableParams] = useState<TableParams>({
-    pagination: {
-      current: 1,
-      pageSize: 10,
-    },
-  });
+  const [modalOpen,isModalOpen] =useState(false);
 
   interface DataType {
     createTime?: string;
@@ -34,6 +56,52 @@ const UserList: React.FC = () => {
     userRole?: string;
   }
 
+  /**
+   * 查询用户：
+   */
+  const onSearch=async()=>{
+    setLoading(true);
+
+    const  params= await form.validateFields();
+    console.log("params:"+ params.userName);
+    const res= await getUserByParamsUsingPost({
+      userName:params.userName,
+      userAccount:params.userAccount,
+    })
+
+    if(res.data){
+        message.success("查询成功")
+        setData([res?.data])
+    }else{
+      message.info("查询用户失败")
+    }
+    setLoading(false);
+  }
+
+
+  /**
+   * 新增用户
+   */
+  const handleAdd=async()=>{
+    setLoading(true);
+    const  params= await addForm.validateFields();
+    console.log("params:"+ params.userAccount);
+    //参数：
+    const res= await addUserUsingPost({
+      userAccount:params.userAccount,
+      userName:params.userName,
+      userPassword:params.userPassword,
+      userRole:params.userRole,
+    })
+    if(res.data){
+      message.success("添加用户成功")
+      return location;
+    }else{
+      message.info("添加用户失败")
+    }
+    isModalOpen(false);
+    setLoading(false);
+  }
   /**
    * 更新用户
    * @param fields
@@ -85,9 +153,33 @@ const UserList: React.FC = () => {
     }
   };
 
-  /**
-   *    createTime?: string;
-   */
+  const handleCancel=()=>{
+    isModalOpen(false);
+  }
+
+  //传入参数 加载数据
+  const loadData= async()=>{
+    setLoading(true);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const res= await listUserByPageUsingGet({
+      current: 1,
+      pageSize: 10,
+    });
+    try{
+      if (res.data){
+        console.log("res.data.records:",res.data.records);
+        setData(res?.data.records)
+      }
+    }catch(e:any){
+      message.error("加载失败："+ e.getMessage);
+    }
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    loadData();
+  }, [])
+
   const columns: TableColumnsType<DataType> = [
     {
       title: '用户ID',
@@ -151,47 +243,91 @@ const UserList: React.FC = () => {
     },
   ];
 
-  interface TableParams {
-    pagination?: TablePaginationConfig;
-    sortField?: string;
-    sortOrder?: string;
-    filters?: Parameters<GetProp<TableProps, 'onChange'>>[1];
-  }
-
-  const getParameters=(params: TableParams)=>({
-    results: params.pagination?.pageSize,
-    page: params.pagination?.current,
-    ...params,
-  });
-
-
-  //传入参数 加载数据
-  const loadData= async(fields:  API.UserVO)=>{
-    setLoading(true);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-     const res= await listUserByPageUsingGet({
-        current: 1,
-        pageSize: 10,
-       ...fields
-     });
-     try{
-       if (res.data){
-         setData(res?.data.records)
-       }
-     }catch(e:any){
-        message.error("加载失败："+ e.getMessage);
-     }
-     setLoading(false);
-  }
-  useEffect(() => {
-    loadData();
-  }, [])
-
-
     return (
-    <PageContainer>
-      <Table columns={columns} dataSource={data} scroll={{ x: 1300 }} pagination={false} bordered />
-    </PageContainer>
+
+    <>
+      <PageContainer>
+        <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
+          <Form form={form} layout="inline">
+            <Form.Item name="userName" label="查询用户名">
+              <Input placeholder="请输入用户昵称" />
+            </Form.Item>
+            <Form.Item name="userAccount" label="查询账户">
+              <Input placeholder="请输入用户账户" />
+            </Form.Item>
+            <Form.Item>
+              <Button type="primary" onClick={onSearch}>查询</Button>
+            </Form.Item>
+            <Form.Item>
+              <Button type="primary" danger onClick={()=>{isModalOpen(true)}} >添加</Button>
+            </Form.Item>
+          </Form>
+        </Space>
+
+        <Divider />
+
+        <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
+          <Table columns={columns} dataSource={data} scroll={{ x: 1300 }} pagination={false} bordered />
+        </Space>
+      </PageContainer>
+
+
+      <Modal title="添加用户"
+             open={modalOpen}
+             footer={null}
+             onCancel={() => handleCancel()}
+      >
+        <Form
+          form={addForm}
+          {...formItemLayout}
+          name="control-hooks"
+          onFinish={handleAdd}
+          style={{ maxWidth: 800 }}
+        >
+          <Form.Item
+            name="userAccount"
+            label="账号:"
+            rules={[{ required: true }]}>
+            <Input  placeholder="请输入账户!" />
+          </Form.Item>
+          <Form.Item
+            label="密码:"
+            name="userPassword"
+            rules={[{ required: true, message: '请输入密码!' }]}
+          >
+            <Input.Password />
+          </Form.Item>
+          <Form.Item name="userName" label="昵称:" rules={[{ required: true }]}>
+            <Input  placeholder="请输入昵称" />
+          </Form.Item>
+          {/*<Form.Item name="userRole" label="角色:" rules={[{ required: true }]}>*/}
+          {/*  <Input  placeholder="请输入角色" />*/}
+          {/*</Form.Item>*/}
+          <Form.Item name="userRole" label="角色" rules={[{ required: true }]}>
+            <Select
+              placeholder="请选择角色"
+              allowClear
+            >
+              <Option value="admin">管理员</Option>
+              <Option value="user">普通用户</Option>
+            </Select>
+          </Form.Item>
+
+          <Form.Item {...tailLayout} >
+            <Space>
+              <Button type="primary" htmlType="submit">
+                确认
+              </Button>
+              <Button htmlType="reset" onClick={handleCancel}>
+                取消
+              </Button>
+            </Space>
+          </Form.Item>
+        </Form>
+      </Modal>
+
+    </>
+
 
   );
 };

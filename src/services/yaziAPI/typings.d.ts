@@ -277,6 +277,7 @@ declare namespace API {
     createTime?: string;
     id?: number;
     updateTime?: string;
+    userAccount?: string;
     userAvatar?: string;
     userName?: string;
     userProfile?: string;
@@ -495,6 +496,11 @@ declare namespace API {
     checkPassword?: string;
     userAccount?: string;
     userPassword?: string;
+  };
+
+  type UserSearchRequest = {
+    userAccount?: string;
+    userName?: string;
   };
 
   type UserUpdateMyRequest = {

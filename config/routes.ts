@@ -1,5 +1,5 @@
 export default [
-  { path: '/', name: '欢迎', icon: 'smile', component: './Index' },
+  { path: '/', name: '接口列表页', icon: 'smile', component: './Index' },
   { path: '/interface_info/:id', name: '查看接口', icon: 'smile', component: './UserInterfaceInfo', hideInMenu: true },
   {
     path: '/user',
@@ -9,6 +9,24 @@ export default [
       { name: '注册', path: '/user/register', component: './User/Register' },
     ],
   },
+  {
+    path: '/user',
+    routes: [
+      { path: '/user/info',
+        name: '个人信息页',
+        icon: 'AuditOutlined',
+        component: './User/Info'
+      },
+    ],
+  },
+
+
+  // {
+  //   path: '/myInterface',
+  //   name: '我的接口',
+  //   icon: 'appstoreOutlined',
+  //   component: './User/MyInterface',
+  // },
   {
     path: '/admin',
     name: '管理页',

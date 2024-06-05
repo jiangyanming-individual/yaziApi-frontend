@@ -160,7 +160,6 @@ const TableList: React.FC = () => {
       return false;
     }
   };
-
   // 解决时间格式化问题
   const formatterTime = (val) => {
     return val ? Moment(val).format('YYYY-MM-DD HH:mm:ss') : ''
