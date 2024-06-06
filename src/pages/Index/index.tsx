@@ -55,6 +55,7 @@ const Index: React.FC = () => {
     setCurrent(current); // 设置当前页
     setPageSize(pageSize) //设置当前页有几条数据
   };
+
   return (
     <PageContainer>
       <List
@@ -72,17 +73,6 @@ const Index: React.FC = () => {
             </List.Item>
           );
         }}
-        // pagination={{
-        //   // eslint-disable-next-line @typescript-eslint/no-shadow
-        //   showTotal(total: number) {
-        //     return '总数：' + total;
-        //   },
-        //   pageSize: 5,
-        //   total,
-        //   onChange(page, pageSize) {
-        //     loadData(page, pageSize);
-        //   },
-        // }}
       />
       <Pagination
         total={total}
